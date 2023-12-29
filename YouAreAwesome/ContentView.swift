@@ -8,54 +8,51 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var messageString = "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk"
+    @State private var messageString = "When the Genius Bar needs help, they call you!"
     
     var body: some View {
-        ZStack {
-            Rectangle()
-                .fill(.yellow.gradient)
-                .ignoresSafeArea()
-            
+        GeometryReader { geometry in
             VStack {
-                Text("You Have Skills!")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .foregroundStyle(Color("Gold-BC"))
-                    .padding()
-                    .background(Color("Maroon-BC"))
-                    .cornerRadius(15)
-                
-                Spacer()
-                
-                Text(messageString)
-                    .font(.largeTitle)
-                    .fontWeight(.heavy)
-                    .minimumScaleFactor(0.5)
-                    .multilineTextAlignment(.center)
-                    .foregroundStyle(Color.red)
-                    .frame(height: 150)
-                    .frame(maxWidth: .infinity)
-    //                .border(.orange, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
-                    .padding()
-                
-                Spacer()
-                
-                HStack {
-                    Button("Awesome") {
-                        // This is the action
-                        messageString = "Your Are Awsome!"
-                    }
-                    .buttonStyle(.borderedProminent)
+                    Spacer()
+                    
+                    Text(messageString)
+                        .font(.largeTitle)
+                        .fontWeight(.heavy)
+                        .minimumScaleFactor(0.5)
+                        .multilineTextAlignment(.center)
+                        .foregroundStyle(Color.red)
+                        .frame(height: 150)
+                        .frame(maxWidth: .infinity)
+        //                .border(.orange, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
+                        .padding()
                     
                     Spacer()
                     
-                    Button("Great") {
-                        messageString = "Great!"
+                    Divider()
+                        .background(.black)
+                        .padding()
+                        .frame(width: 150.0)
+                    
+                    Rectangle()
+                        .fill(.indigo)
+                        .frame(width: geometry.size.width * (2/3), height: 1)
+                    
+                    HStack {
+                        Button("Awesome") {
+                            // This is the action
+                            messageString = "Your Are Awsome!"
+                        }
+                        .buttonStyle(.borderedProminent)
+                        
+                        Spacer()
+                        
+                        Button("Great") {
+                            messageString = "Great!"
+                        }
+                        .buttonStyle(.borderedProminent)
                     }
-                    .buttonStyle(.borderedProminent)
-                }
-    //            .border(.purple, width: 5)
-                .padding()
+        //            .border(.purple, width: 5)
+                    .padding()
             }
         }
     }
