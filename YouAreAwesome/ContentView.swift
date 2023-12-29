@@ -8,14 +8,35 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var messageString = "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk"
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Text(messageString)
+                .font(.largeTitle)
+                .fontWeight(.heavy)
+                .minimumScaleFactor(0.5)
+                .multilineTextAlignment(.center)
+                .foregroundStyle(Color.red)
+                .frame(height: 150)
+                .frame(maxWidth: .infinity)
+                .border(.orange, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
+                .padding()
+            
+            HStack {
+                Button("Awesome") {
+                    // This is the action
+                    messageString = "Your Are Awsome!"
+                }
+                .buttonStyle(.borderedProminent)
+                
+                Button("Great") {
+                    messageString = "Great!"
+                }
+                .buttonStyle(.borderedProminent)
+            }
+            .border(.purple, width: 5)
         }
-        .padding()
     }
 }
 
