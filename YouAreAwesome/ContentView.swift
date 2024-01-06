@@ -11,8 +11,10 @@ import AVFAudio
 struct ContentView: View {
     @State private var messageString = ""
     @State private var messageNumber = 0
+    @State private var lastMessageNumber = -1
     @State private var imageName = ""
     @State private var imageNumber = 0
+    @State private var lastImageNumber = -1
     @State private var audioPlayer: AVAudioPlayer!
     @State private var lastSoundNumber = -1
 
@@ -48,42 +50,42 @@ struct ContentView: View {
                                "How are You?",
                                "Fine thank You!"]
 
-                messageString = messages[messageNumber]                
-                messageNumber = Int.random(in: 0...messages.count-1)
+                lastMessageNumber = nonRepeatingRandom(lastNumber: lastMessageNumber, upperBound: messages.count-1)
+                messageString = messages[lastMessageNumber]
                 
-                if messageNumber == messages.count {
-                    messageNumber = 0
-                }
-                
-                imageName = "image\(imageNumber)"
-                
-                imageNumber = Int.random(in: 0...9)
-                if imageNumber > 9 {
-                    imageNumber = 0
-                }
-                
-                var soundNumber: Int
-                repeat {
-                    soundNumber = Int.random(in: 0...5)
-                } while soundNumber == lastSoundNumber
-                lastSoundNumber = soundNumber
-                let soundName = "sound\(soundNumber)"
-                
-                guard let soundFile = NSDataAsset(name: soundName) else {
-                    print("Could not find \(soundName)")
-                    return
-                }
-                
-                do {
-                    audioPlayer = try AVAudioPlayer(data: soundFile.data)
-                    audioPlayer.play()
-                } catch {
-                    print("ERROR: \(error.localizedDescription) creatin audioPlayer.")
-                }
+                lastImageNumber = nonRepeatingRandom(lastNumber: lastImageNumber, upperBound: 9)
+                imageName = "image\(lastImageNumber)"
+                lastSoundNumber = nonRepeatingRandom(lastNumber: lastSoundNumber, upperBound: 5)
+
+                playSound(soundName: "sound\(lastSoundNumber)")
             }
             .buttonStyle(.borderedProminent)
         }
         .padding()
+    }
+    
+    func playSound(soundName: String) {
+        guard let soundFile = NSDataAsset(name: soundName) else {
+            print("Could not find \(soundName)")
+            return
+        }
+        
+        do {
+            audioPlayer = try AVAudioPlayer(data: soundFile.data)
+            audioPlayer.play()
+        } catch {
+            print("ERROR: \(error.localizedDescription) creatin audioPlayer.")
+        }
+    }
+    
+    func nonRepeatingRandom(lastNumber: Int, upperBound: Int) -> Int {
+        var newNumber: Int
+        
+        repeat {
+            newNumber = Int.random(in: 0...upperBound)
+        } while newNumber == lastNumber
+        
+        return newNumber
     }
 }
 
